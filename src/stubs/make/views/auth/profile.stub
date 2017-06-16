@@ -1,0 +1,96 @@
+@extends('layouts.app')
+@section('content')
+
+  <div class="col-lg-10 col-md-10 col-md-offset-1 col-lg-offset-1">
+        <div class="panel panel-default">
+        	<div class="panel-heading">
+        		<h4 class="title">{{ $user->name }}'s Profile</h4>
+        	</div>
+          <div class="panel-body">
+            <div class="col-md-4">
+              <form enctype="multipart/form-data" action="{{ route('update_avatar') }}" method="post">
+                {{ csrf_field() }}
+                <div class="text-center" style="margin-top:5%;">
+                  <div class="fileinput fileinput-new" data-provides="fileinput">
+                    <div class="fileinput-new thumbnail text-center" style="width:150px; height:150px; border-radius:50%;">
+                      <?php $image = !is_null($user->avatar) ? $user->avatar : 'default.jpg' ?>
+                      {!! Html::image('uploads/user_images/' . $image, $user->name, ['class'=>'media-object', 'style'=>'width:150px; height:150px; border-radius:50%;']) !!}
+                    </div>
+
+                    <div class="fileinput-preview fileinput-exists thumbnail text-center" style="width:150px; height:150px; float:left; border-radius:50%;"></div>
+
+                      <div class="text-center">
+                        <span class="btn btn-success btn-file btn-sm"><span class="fileinput-new">Change Photo</span><span class="fileinput-exists">Change</span>{!! Form::file('avatar') !!}</span>
+                        <a href="#" class="btn btn-primary fileinput-exists btn-sm" data-dismiss="fileinput">Remove</a>
+                      </div>
+                  </div>
+                </div>
+                <div class="text-center">
+                  <input type="submit" class="btn btn-default btn-sm" value="Save Change">
+                </div>
+              </form>
+            </div>
+            <div class="col-md-8">
+              <form class="form-horizontal" role="form" method="POST" action="{{ route('changepass') }}">
+                  {{ csrf_field() }}
+
+                  <div class="form-group{{ $errors->has('passwordold') ? ' has-error' : '' }}">
+                      <label for="passwordold" class="col-md-4 control-label"><h4>Current Password</h4></label>
+
+                      <div class="col-md-6">
+                          <input id="passwordold" type="password" class="form-control" name="passwordold" required autofocus="autofocus">
+
+                          @if ($errors->has('passwordold'))
+                              <span class="help-block">
+                                  <strong>{{ $errors->first('passwordold') }}</strong>
+                              </span>
+                          @endif
+                      </div>
+                  </div>
+
+                  <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
+                      <label for="password" class="col-md-4 control-label"><h4>New Password</h4></label>
+
+                      <div class="col-md-6">
+                          <input id="password" type="password" class="form-control" name="password" required>
+
+                          @if ($errors->has('password'))
+                              <span class="help-block">
+                                  <strong>{{ $errors->first('password') }}</strong>
+                              </span>
+                          @endif
+                      </div>
+                  </div>
+
+                  <div class="form-group">
+                      <label for="password-confirm" class="col-md-4 control-label"><h4>Confirm Password</h4></label>
+
+                      <div class="col-md-6">
+                          <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
+                      </div>
+                  </div>
+
+                  <div class="form-group">
+                      <div class="col-md-6 col-md-offset-4">
+                          <button type="submit" class="btn btn-success btn-sm">
+                              Change Password
+                          </button>
+                      </div>
+                  </div>
+              </form>
+            </div>
+        	</div>
+        </div>
+      </div>
+
+
+@endsection
+
+
+@section('script')
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/js/jasny-bootstrap.min.js"></script>
+
+  <script type="text/javascript">
+    $('.fileinput').fileinput()
+  </script>
+@endsection

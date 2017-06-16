@@ -1,0 +1,40 @@
+@extends('layouts.app')
+
+@section('content')
+
+  <div class="col-md-10 col-md-offset-1">
+    <div class="panel panel-default">
+      <div class="panel-heading"> User List
+      </div>
+      <div class="panel-body">
+        <table class="table table-responsive">
+          <thead>
+            <th class="text-center" width="80px">#</th>
+            <th class="text-center">User</th>
+            <th>User Name</th>
+            <th>Email</th>
+            <th class="text-center">Role</th>
+          </thead>
+          <tbody>
+            @foreach ($users as $user)
+              <tr>
+                <td class="text-center" style="vertical-align:middle;">
+                  #
+                </td>
+                <td class="text-center">
+                  <img src="/uploads/user_images/{{ $user->avatar }}" alt="" style="width:50px; height:50px; border-radius:50%"/>
+                </td>
+                <td style="vertical-align:middle;">{{ $user->name }}</td>
+                <td style="vertical-align:middle;">{{ $user->email }}</td>
+                <td style="vertical-align:middle;" class="text-center">
+                  <a href="{{ route('users.show', $user->id) }}" class="btn btn-sm btn-default"><i class="fa fa-id-card-o" aria-hidden="true"> Assign Role</i></a>
+                </td>
+              </tr>
+            @endforeach
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+@endsection

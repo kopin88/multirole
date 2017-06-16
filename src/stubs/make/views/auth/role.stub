@@ -1,0 +1,94 @@
+@extends('layouts.app')
+
+@section('content')
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              Role List
+            </div>
+            <div class="panel-body">
+                <table class="table table-responsive table-hover">
+                  <thead>
+                    <th>#</th>
+                    <th>role_name</th>
+                    <th>Description</th>
+                    <th style="width:80px"></th>
+                  </thead>
+                  <tbody>
+                    @foreach ($roles as $role)
+                      <tr>
+                        <td>#</td>
+                        <td>{{ $role->name }}</td>
+                        <td>{{ $role->description }}</td>
+                        <td class="text-center text-primary"><span class="badge">{{ $role->users->count() }}</span></td>
+                      </tr>
+                    @endforeach
+                  </tbody>
+                </table>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">New Role</div>
+                <div class="panel-body">
+                    <form class="form-horizontal" role="form" method="POST" action="{{ route('roles.store') }}">
+                        {{ csrf_field() }}
+
+                        <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
+                            <div class="col-md-12">
+                                <input id="name" type="text" class="form-control" name="name" placeholder="role_name" autofocus>
+
+                                @if ($errors->has('name'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('name') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }}">
+                            <div class="col-md-12">
+                                <input type="textarea" name="description" rows="20" class="form-control" placeholder="Description">
+                                @if ($errors->has('description'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('description') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <button type="submit" class="btn btn-sm btn-success">
+                                     <i class="fa fa-plus-square" aria-hidden="true"> Add Role</i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
+
+
+
+
+  {{-- <div class="list-group">
+    <a href="#" class="list-group-item active">
+        Role List
+    </a>
+    @foreach ($roles as $name => $role)
+      <a href="#" class="list-group-item">
+        <span class="row">
+          <span class="col-md-1">#</span>
+          <span class="col-md-5">{{ $role->name }}</span>
+          <span class="col-md-5">{{ $role->description }}</span><span class="badge">14</span>
+        </span>
+
+      </a>
+    @endforeach
+  </div> --}}
